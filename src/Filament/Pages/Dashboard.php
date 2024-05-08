@@ -36,11 +36,11 @@ class Dashboard extends BaseDashboard
         ]])->all();
 
         $this->designMode = false;
-        GridStackDashboard::updateOrCreate(
-            ['user_id' => auth()->id()],
-            ['parameters' => $data]
+        config('gridstack-dashboard.model', GridStackDashboard::class)::updateOrCreate(
+            [config('gridstack-dashboard.foreign_key', 'user_id') => auth()->id()],
+            [config('gridstack-dashboard.field', 'parameters') => $data]
         );
-        Notification::make()->success()->title(__('Well done!'))->body(__('Successfully updated.'))->send();
+        Notification::make()->success()->title(__('filament-gridstack-dashboard::component.notifications.success'))->body(__('filament-gridstack-dashboard::component.notifications.saved'))->send();
     }
 
     public function cancelLayout(): void
@@ -124,9 +124,9 @@ class Dashboard extends BaseDashboard
 
     protected function getVisibleWidgetsForGrid(): array
     {
-        $item = GridStackDashboard::query()->where('user_id', auth()->id())->first();
+        $item = config('gridstack-dashboard.model', GridStackDashboard::class)::query()->where(config('gridstack-dashboard.foreign_key', 'user_id'), auth()->id())->first();
         if ($item) {
-            return $item->parameters;
+            return $item->{config('gridstack-dashboard.field', 'parameters')};
         }
 
         return [];

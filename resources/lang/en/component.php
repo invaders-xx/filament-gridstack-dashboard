@@ -8,4 +8,8 @@ return [
         'save' => 'Save',
         'cancel' => 'Cancel',
     ],
+    'notifications' => [
+        'saved' => 'Successfully saved.',
+        'success' => 'Well done!',
+    ],
 ];
