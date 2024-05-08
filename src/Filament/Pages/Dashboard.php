@@ -17,7 +17,7 @@ class Dashboard extends BaseDashboard
 
     protected static string $view = 'filament-gridstack-dashboard::pages.dashboard';
 
-    public function getColumns(): int|array
+    public function getColumns(): int | array
     {
         return 12;
     }
