@@ -1,26 +1,23 @@
 <?php
 
-namespace VendorName\Skeleton;
+namespace InvadersXX\FilamentGridstackDashboard;
 
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Asset;
-use Filament\Support\Assets\Css;
 use Filament\Support\Assets\Js;
 use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Facades\FilamentIcon;
 use Illuminate\Filesystem\Filesystem;
-use Livewire\Features\SupportTesting\Testable;
+use InvadersXX\FilamentGridstackDashboard\Commands\FilamentGridstackDashboardCommand;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use VendorName\Skeleton\Commands\SkeletonCommand;
-use VendorName\Skeleton\Testing\TestsSkeleton;
 
-class SkeletonServiceProvider extends PackageServiceProvider
+class FilamentGridstackDashboardServiceProvider extends PackageServiceProvider
 {
-    public static string $name = 'skeleton';
+    public static string $name = 'filament-gridstack-dashboard';
 
-    public static string $viewNamespace = 'skeleton';
+    public static string $viewNamespace = 'filament-gridstack-dashboard';
 
     public function configurePackage(Package $package): void
     {
@@ -36,7 +33,7 @@ class SkeletonServiceProvider extends PackageServiceProvider
                     ->publishConfigFile()
                     ->publishMigrations()
                     ->askToRunMigrations()
-                    ->askToStarRepoOnGitHub(':vendor_slug/:package_slug');
+                    ->askToStarRepoOnGitHub('invaders-xx/filament-gridstack-dashboard');
             });
 
         $configFileName = $package->shortName();
@@ -82,30 +79,12 @@ class SkeletonServiceProvider extends PackageServiceProvider
         if (app()->runningInConsole()) {
             foreach (app(Filesystem::class)->files(__DIR__ . '/../stubs/') as $file) {
                 $this->publishes([
-                    $file->getRealPath() => base_path("stubs/skeleton/{$file->getFilename()}"),
-                ], 'skeleton-stubs');
+                    $file->getRealPath() => base_path("stubs/filament-gridstack-dashboard/{$file->getFilename()}"),
+                ], 'filament-gridstack-dashboard-stubs');
             }
         }
 
         // Testing
-        Testable::mixin(new TestsSkeleton());
-    }
-
-    protected function getAssetPackageName(): ?string
-    {
-        return ':vendor_slug/:package_slug';
-    }
-
-    /**
-     * @return array<Asset>
-     */
-    protected function getAssets(): array
-    {
-        return [
-            // AlpineComponent::make('skeleton', __DIR__ . '/../resources/dist/components/skeleton.js'),
-            Css::make('skeleton-styles', __DIR__ . '/../resources/dist/skeleton.css'),
-            Js::make('skeleton-scripts', __DIR__ . '/../resources/dist/skeleton.js'),
-        ];
     }
 
     /**
@@ -114,8 +93,43 @@ class SkeletonServiceProvider extends PackageServiceProvider
     protected function getCommands(): array
     {
         return [
-            SkeletonCommand::class,
+            FilamentGridstackDashboardCommand::class,
         ];
+    }
+
+    /**
+     * @return array<string>
+     */
+    protected function getMigrations(): array
+    {
+        return [
+            'create_filament-gridstack-dashboard_table',
+        ];
+    }
+
+    /**
+     * @return array<Asset>
+     */
+    protected function getAssets(): array
+    {
+        return [
+            AlpineComponent::make('filament-gridstack-dashboard', __DIR__ . '/../resources/dist/components/filament-gridstack-dashboard.js'),
+            // Css::make('filament-gridstack-dashboard-styles', __DIR__ . '/../resources/dist/filament-gridstack-dashboard.css'),
+            Js::make('filament-gridstack-dashboard-scripts', __DIR__ . '/../resources/dist/filament-gridstack-dashboard.js')->loadedOnRequest(),
+        ];
+    }
+
+    protected function getAssetPackageName(): ?string
+    {
+        return 'invaders-xx/filament-gridstack-dashboard';
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    protected function getScriptData(): array
+    {
+        return [];
     }
 
     /**
@@ -132,23 +146,5 @@ class SkeletonServiceProvider extends PackageServiceProvider
     protected function getRoutes(): array
     {
         return [];
-    }
-
-    /**
-     * @return array<string, mixed>
-     */
-    protected function getScriptData(): array
-    {
-        return [];
-    }
-
-    /**
-     * @return array<string>
-     */
-    protected function getMigrations(): array
-    {
-        return [
-            'create_skeleton_table',
-        ];
     }
 }

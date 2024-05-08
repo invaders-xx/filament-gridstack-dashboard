@@ -1,15 +1,15 @@
 <?php
 
-namespace VendorName\Skeleton;
+namespace InvadersXX\FilamentGridstackDashboard;
 
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 
-class SkeletonPlugin implements Plugin
+class FilamentGridstackDashboardPlugin implements Plugin
 {
     public function getId(): string
     {
-        return 'skeleton';
+        return 'filament-gridstack-dashboard';
     }
 
     public function register(Panel $panel): void
