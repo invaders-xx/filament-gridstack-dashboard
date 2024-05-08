@@ -3,7 +3,7 @@ import {GridStack} from 'gridstack';
 export default function gridStackDashboard() {
     return {
         grid: null,
-        gridItems: $wire.entangle('gridItems'),
+        gridItems: this.$wire.entangle('gridItems'),
         addItem: function (id, name) {
             this.grid.addWidget({w: 12, id: id, content: name})
         },

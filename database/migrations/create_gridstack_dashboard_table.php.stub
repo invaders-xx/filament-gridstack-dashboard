@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -8,12 +9,21 @@ return new class extends Migration
 {
     public function up()
     {
-        Schema::create('filament_gridstack_dashboard_table', function (Blueprint $table) {
+        Schema::create(config('gridstack-dashboard.table', 'filament_gridstack_dashboards'), function (Blueprint $table) {
+            $userClass = config('gridstack-dashboard.users.model', User::class);
+            $userTable = config('gridstack-dashboard.users.table', 'users');
             $table->id();
-
+            $table->foreignIdFor($userClass, 'user_id')
+                ->constrained($userTable)
+                ->cascadeOnDelete();
             // add fields
-
+            $table->json('parameters');
             $table->timestamps();
         });
+    }
+
+    public function down(): void
+    {
+        Schema::drop('filament_gridstack_dashboards');
     }
 };

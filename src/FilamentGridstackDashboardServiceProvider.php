@@ -4,11 +4,10 @@ namespace InvadersXX\FilamentGridstackDashboard;
 
 use Filament\Support\Assets\AlpineComponent;
 use Filament\Support\Assets\Asset;
-use Filament\Support\Assets\Js;
+use Filament\Support\Assets\Css;
 use Filament\Support\Facades\FilamentAsset;
 use Filament\Support\Facades\FilamentIcon;
 use Illuminate\Filesystem\Filesystem;
-use InvadersXX\FilamentGridstackDashboard\Commands\FilamentGridstackDashboardCommand;
 use Spatie\LaravelPackageTools\Commands\InstallCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
@@ -28,6 +27,10 @@ class FilamentGridstackDashboardServiceProvider extends PackageServiceProvider
          */
         $package->name(static::$name)
             ->hasCommands($this->getCommands())
+            ->hasConfigFile('gridstack-dashboard')
+            ->hasMigrations($this->getMigrations())
+            ->hasViews(static::$viewNamespace)
+            ->hasTranslations()
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command
                     ->publishConfigFile()
@@ -35,24 +38,6 @@ class FilamentGridstackDashboardServiceProvider extends PackageServiceProvider
                     ->askToRunMigrations()
                     ->askToStarRepoOnGitHub('invaders-xx/filament-gridstack-dashboard');
             });
-
-        $configFileName = $package->shortName();
-
-        if (file_exists($package->basePath("/../config/{$configFileName}.php"))) {
-            $package->hasConfigFile();
-        }
-
-        if (file_exists($package->basePath('/../database/migrations'))) {
-            $package->hasMigrations($this->getMigrations());
-        }
-
-        if (file_exists($package->basePath('/../resources/lang'))) {
-            $package->hasTranslations();
-        }
-
-        if (file_exists($package->basePath('/../resources/views'))) {
-            $package->hasViews(static::$viewNamespace);
-        }
     }
 
     public function packageRegistered(): void
@@ -93,7 +78,6 @@ class FilamentGridstackDashboardServiceProvider extends PackageServiceProvider
     protected function getCommands(): array
     {
         return [
-            FilamentGridstackDashboardCommand::class,
         ];
     }
 
@@ -103,7 +87,7 @@ class FilamentGridstackDashboardServiceProvider extends PackageServiceProvider
     protected function getMigrations(): array
     {
         return [
-            'create_filament-gridstack-dashboard_table',
+            'create_gridstack_dashboard_table',
         ];
     }
 
@@ -113,9 +97,9 @@ class FilamentGridstackDashboardServiceProvider extends PackageServiceProvider
     protected function getAssets(): array
     {
         return [
-            AlpineComponent::make('filament-gridstack-dashboard', __DIR__ . '/../resources/dist/components/filament-gridstack-dashboard.js'),
-            // Css::make('filament-gridstack-dashboard-styles', __DIR__ . '/../resources/dist/filament-gridstack-dashboard.css'),
-            Js::make('filament-gridstack-dashboard-scripts', __DIR__ . '/../resources/dist/filament-gridstack-dashboard.js')->loadedOnRequest(),
+            AlpineComponent::make('filament-gridstack-dashboard-script', __DIR__ . '/../resources/dist/components/filament-gridstack-dashboard.js'),
+            Css::make('filament-gridstack-dashboard-styles', __DIR__ . '/../resources/dist/filament-gridstack-dashboard.css')->loadedOnRequest(),
+            // Js::make('filament-gridstack-dashboard-scripts', __DIR__ . '/../resources/dist/filament-gridstack-dashboard.js')->loadedOnRequest(),
         ];
     }
 
