@@ -22,6 +22,25 @@ You can install the package via composer:
 ```bash
 composer require invaders-xx/filament-gridstack-dashboard
 ```
+```bash
+php artisan filament:assets
+```
+
+
+> **Note: Add plugin Blade files to your custom theme `tailwind.config.js` for dark mode.**
+>
+> To set up your own custom theme, you can visit
+> the [official instruction page](https://filamentphp.com/docs/3.x/panels/themes#creating-a-custom-theme) on the
+> Filament
+> website.
+
+Add the plugin's views to your `tailwind.config.js` file.
+
+```js
+content: [
+    '<path-to-vendor>/invaders-xx/filament-gridstack-dashboard/resources/**/*.blade.php',
+]
+```
 
 Please visit [Laravel model settings](https://github.com/glorand/laravel-model-settings) to configure your User model to
 use
