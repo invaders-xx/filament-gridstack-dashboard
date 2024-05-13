@@ -47,12 +47,12 @@ class Dashboard extends BaseDashboard
     public function getFilteredWidgets(): array
     {
         $return = [];
-        foreach ($this->getVisibleWidgets() as $widgetClass) {
+        foreach ($this->getAllowedWidgets() as $widgetClass) {
             $widgetInstance = app()->make($widgetClass);
 
             $label = match (true) {
                 $widgetInstance instanceof TableWidget => (string) invade($widgetInstance)->makeTable()->getHeading(),
-                ! ($widgetInstance instanceof TableWidget) && $widgetInstance instanceof Widget && method_exists(
+                !($widgetInstance instanceof TableWidget) && $widgetInstance instanceof Widget && method_exists(
                     $widgetInstance,
                     'getHeading'
                 ) => (string) invade($widgetInstance)->getHeading(),
@@ -71,12 +71,13 @@ class Dashboard extends BaseDashboard
     {
         $return = [];
         $this->gridItems = [];
+
         foreach ($this->getVisibleWidgetsForGrid() as $widget) {
             $widgetInstance = app()->make($widget['widget']);
 
             $label = match (true) {
                 $widgetInstance instanceof TableWidget => (string) invade($widgetInstance)->makeTable()->getHeading(),
-                ! ($widgetInstance instanceof TableWidget) && $widgetInstance instanceof Widget && method_exists(
+                !($widgetInstance instanceof TableWidget) && $widgetInstance instanceof Widget && method_exists(
                     $widgetInstance,
                     'getHeading'
                 ) => (string) invade($widgetInstance)->getHeading(),
@@ -91,7 +92,7 @@ class Dashboard extends BaseDashboard
             $item['y'] = $widget['y'];
             $item['content'] = $label;
             $item['resizeHandles'] = 'e,w';
-            if (! isset($return[$item['y']])) {
+            if (!isset($return[$item['y']])) {
                 $return[$item['y']] = [];
             }
             $return[$item['y']][] = $item;
@@ -115,7 +116,7 @@ class Dashboard extends BaseDashboard
                 ->icon('heroicon-o-rectangle-group')
                 ->color('gray')
                 ->action(function () {
-                    $this->designMode = ! $this->designMode;
+                    $this->designMode = !$this->designMode;
                     if ($this->designMode) {
                         $this->buildGridItemsForDesign();
                     }
@@ -125,6 +126,37 @@ class Dashboard extends BaseDashboard
 
     protected function getVisibleWidgetsForGrid(): array
     {
-        return auth()->user()->settings()->get(static::getSettingsPath(), []);
+        $widgets = auth()->user()->settings()->get(static::getSettingsPath(), []);
+
+        if (empty($widgets)) {
+            $widgets = $this->getEmptyStateWidgets();
+        }
+
+        return $widgets;
+    }
+
+    protected function getAllowedWidgets(): array
+    {
+        return GridstackDashboardPlugin::get()->getAllowedWidgets() ??  $this->getVisibleWidgets();
+    }
+
+    protected function getEmptyStateWidgets(): array
+    {
+        return GridstackDashboardPlugin::get()->getEmptyStateWidgets() ?? [];
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return GridstackDashboardPlugin::get()->shouldRegisterNavigation();
+    }
+
+    public static function getNavigationGroup(): ?string
+    {
+        return GridstackDashboardPlugin::get()->getNavigationGroup();
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return GridstackDashboardPlugin::get()->getNavigationSort();
     }
 }
