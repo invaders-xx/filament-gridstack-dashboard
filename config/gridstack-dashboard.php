@@ -5,7 +5,7 @@ return [
     'navigation_sort' => null,
     'navigation_group' => null,
 
-    'allowed_widgets' => [],
+    'allowed_widgets' => null,
 
     'empty_state_widgets' => []
 ];
