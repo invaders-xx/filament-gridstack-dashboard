@@ -2,6 +2,10 @@
 
 All notable changes to `filament-gridstack-dashboard` will be documented in this file.
 
+## v1.1 - 2024-05-13
+
+Update the readme
+
 ## v1.0 - 2024-05-13
 
 **Full Changelog**: https://github.com/invaders-xx/filament-gridstack-dashboard/compare/v0.1-beta...v1.0
