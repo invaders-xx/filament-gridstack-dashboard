@@ -20,11 +20,6 @@ class FilamentGridstackDashboardServiceProvider extends PackageServiceProvider
 
     public function configurePackage(Package $package): void
     {
-        /*
-         * This class is a Package Service Provider
-         *
-         * More info: https://github.com/spatie/laravel-package-tools
-         */
         $package->name(static::$name)
             ->hasCommands($this->getCommands())
             ->hasConfigFile('gridstack-dashboard')
@@ -34,8 +29,6 @@ class FilamentGridstackDashboardServiceProvider extends PackageServiceProvider
             ->hasInstallCommand(function (InstallCommand $command) {
                 $command
                     ->publishConfigFile()
-                    ->publishMigrations()
-                    ->askToRunMigrations()
                     ->askToStarRepoOnGitHub('invaders-xx/filament-gridstack-dashboard');
             });
     }
@@ -77,8 +70,7 @@ class FilamentGridstackDashboardServiceProvider extends PackageServiceProvider
      */
     protected function getCommands(): array
     {
-        return [
-        ];
+        return [];
     }
 
     /**
@@ -86,9 +78,7 @@ class FilamentGridstackDashboardServiceProvider extends PackageServiceProvider
      */
     protected function getMigrations(): array
     {
-        return [
-            'create_gridstack_dashboard_table',
-        ];
+        return [];
     }
 
     /**

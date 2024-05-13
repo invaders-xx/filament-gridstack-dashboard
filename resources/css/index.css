@@ -3,9 +3,13 @@
 @import 'gridstack/dist/gridstack-extra.min.css';
 
 .grid-stack .grid-stack-item {
-    @apply cursor-move focus-visible:ring-2  bg-white text-gray-950 hover:bg-gray-50 dark:bg-white/5 dark:text-white dark:hover:bg-white/10 ring-1 ring-gray-950/10 dark:ring-white/20;
+    @apply cursor-move focus-visible:ring-2 bg-white text-gray-950 hover:bg-gray-50 dark:bg-white/5 dark:text-white dark:hover:bg-white/10 ring-1 ring-gray-950/10 dark:ring-white/20;
 }
 
 .grid-stack .grid-stack-item .grid-stack-item-content {
     @apply text-center align-middle;
+}
+
+.grid-stack .grid-stack-placeholder > .placeholder-content {
+    @apply border-2 border-dashed border-primary-500;
 }

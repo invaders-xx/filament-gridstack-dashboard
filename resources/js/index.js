@@ -7,8 +7,10 @@ export default function gridStackDashboard() {
         addItem: function (id, name) {
             this.grid.addWidget({w: 12, id: id, content: name})
         },
-
-        // You can define any other Alpine.js properties here.
+        removeAll: function () {
+            this.grid.removeAll()
+            this.gridItems = []
+        },
 
         init: function () {
             this.grid = GridStack.init({

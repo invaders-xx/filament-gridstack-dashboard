@@ -7,6 +7,7 @@ return [
     'actions' => [
         'save' => 'Save',
         'cancel' => 'Cancel',
+        'remove_all' => 'Remove all',
     ],
     'notifications' => [
         'saved' => 'Successfully saved.',

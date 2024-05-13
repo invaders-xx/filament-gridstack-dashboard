@@ -7,7 +7,7 @@ use Filament\Notifications\Notification;
 use Filament\Pages\Dashboard as BaseDashboard;
 use Filament\Widgets\TableWidget;
 use Filament\Widgets\Widget;
-use InvadersXX\FilamentGridstackDashboard\Models\GridStackDashboard;
+use InvadersXX\FilamentGridstackDashboard\GridstackDashboardPlugin;
 
 class Dashboard extends BaseDashboard
 {
@@ -17,7 +17,7 @@ class Dashboard extends BaseDashboard
 
     protected static string $view = 'filament-gridstack-dashboard::pages.dashboard';
 
-    public function getColumns(): int | array
+    public function getColumns(): int|array
     {
         return 12;
     }
@@ -34,12 +34,8 @@ class Dashboard extends BaseDashboard
             'y' => $item['y'],
             'w' => $item['w'],
         ]])->all();
-
+        auth()->user()->settings()->set(static::getSettingsPath(), $data);
         $this->designMode = false;
-        config('gridstack-dashboard.model', GridStackDashboard::class)::updateOrCreate(
-            [config('gridstack-dashboard.foreign_key', 'user_id') => auth()->id()],
-            [config('gridstack-dashboard.field', 'parameters') => $data]
-        );
         Notification::make()->success()->title(__('filament-gridstack-dashboard::component.notifications.success'))->body(__('filament-gridstack-dashboard::component.notifications.saved'))->send();
     }
 
@@ -105,6 +101,11 @@ class Dashboard extends BaseDashboard
         return $return;
     }
 
+    protected static function getSettingsPath(): string
+    {
+        return GridstackDashboardPlugin::get()->getSettingsPath();
+    }
+
     protected function getHeaderActions(): array
     {
         return [
@@ -124,11 +125,6 @@ class Dashboard extends BaseDashboard
 
     protected function getVisibleWidgetsForGrid(): array
     {
-        $item = config('gridstack-dashboard.model', GridStackDashboard::class)::query()->where(config('gridstack-dashboard.foreign_key', 'user_id'), auth()->id())->first();
-        if ($item) {
-            return $item->{config('gridstack-dashboard.field', 'parameters')};
-        }
-
-        return [];
+        return auth()->user()->settings()->get(static::getSettingsPath(), []);
     }
 }

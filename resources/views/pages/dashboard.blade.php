@@ -21,6 +21,9 @@
                 <x-filament::button wire:click="cancelLayout" color="gray">
                     {{ __('filament-gridstack-dashboard::component.actions.cancel') }}
                 </x-filament::button>
+                <x-filament::button @click="removeAll()" color="danger">
+                    {{ __('filament-gridstack-dashboard::component.actions.remove_all') }}
+                </x-filament::button>
             </div>
             <div class="mx-auto grid w-full grid-cols-12 space-x-3">
                 <div class="col-span-3 md:mb-10">
@@ -51,6 +54,9 @@
                             </x-filament::button>
                             <x-filament::button wire:click="cancelLayout" color="gray">
                                 {{ __('filament-gridstack-dashboard::component.actions.cancel') }}
+                            </x-filament::button>
+                            <x-filament::button @click="removeAll" color="danger">
+                                {{ __('filament-gridstack-dashboard::component.actions.remove_all') }}
                             </x-filament::button>
                         </div>
                     </x-filament::section>
@@ -85,13 +91,16 @@
                         @php
                             $widgetClass = $normalizeWidgetClass($widget['id']);
                         @endphp
-
-                        @livewire($widgetClass,
-                        [...$widget['id'] instanceof \Filament\Widgets\WidgetConfiguration?
-                        [...$widget['id']->widget::getDefaultProperties(), ...$widget['id']->getProperties()]:
-                        $widget['id']::getDefaultProperties(),...$data,],
-                        key("{$widgetClass}-{$widgetKey}")
-                        )
+                        <x-filament::grid.column
+                                class="fi-wi-widget"
+                                :default="$widget['w']">
+                            @livewire($widgetClass,
+                            [...$widget['id'] instanceof \Filament\Widgets\WidgetConfiguration?
+                            [...$widget['id']->widget::getDefaultProperties(), ...$widget['id']->getProperties()]:
+                            $widget['id']::getDefaultProperties(),...$data,],
+                            key("{$widgetClass}-{$widgetKey}")
+                            )
+                        </x-filament::grid.column>
                     @endforeach
                 </x-filament::grid>
             @endforeach
