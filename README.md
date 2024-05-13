@@ -96,6 +96,66 @@ public function panel(Panel $panel): Panel
 }
 ```
 
+
+
+### Only select certain widgets to be displayed
+
+Set the allowed_widgets config. Set this value to null if you want to show all widgets of the panel.
+
+```php
+return [
+    'allowed_widgets' => [
+        RunningProjectsChart::class,
+        BrutoMarginChart::class,
+        ApprovedQuotes::class,
+        FollowUpTableWidget::class,
+        PaymentRemindersTableWidget::class
+    ]
+];
+```
+
+### Set an empty state (when the user hasn't chosen any widgets)
+Set the empty_state_widgets` config.
+
+```php
+return [
+    'empty_state_widgets' =>
+    [
+        [
+            "widget" => RunningProjectsChart::class,
+            "x" => 0,
+            "y" => 0,
+            "w" => 6,
+        ],
+        [
+            "widget" => BrutoMarginChart::class,
+            "x" => 6,
+            "y" => 0,
+            "w" => 6,
+        ],
+
+        [
+            "widget" => ApprovedQuotes::class,
+            "x" => 0,
+            "y" => 1,
+            "w" => 12,
+        ],
+        [
+            "widget" => FollowUpTableWidget::class,
+            "x" => 0,
+            "y" => 2,
+            "w" => 12,
+        ],
+        [
+            "widget" => PaymentRemindersTableWidget::class,
+            "x" => 0,
+            "y" => 3,
+            "w" => 12,
+        ]
+    ]
+];
+```
+
 ## Testing
 
 ```bash
