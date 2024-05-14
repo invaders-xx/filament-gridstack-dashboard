@@ -114,7 +114,6 @@ public function panel(Panel $panel): Panel
 ```
 
 You can configure the navigationIcon, the navigationGroup and the navigationSort
-By default the path is 'dashboard.layout'
 
 ```php
 use InvadersXX\FilamentGridstackDashboard\GridstackDashboardPlugin;
