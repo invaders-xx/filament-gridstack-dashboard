@@ -23,6 +23,8 @@ class GridstackDashboardPlugin implements Plugin
 
     protected int|Closure|null $navigationSort = -200;
 
+    protected int|Closure|null $columns = 12;
+
     public static function make(): static
     {
         return app(static::class);
@@ -59,6 +61,13 @@ class GridstackDashboardPlugin implements Plugin
     public function defaultGrid(array|Closure $grid): static
     {
         $this->defaultGrid = $grid;
+
+        return $this;
+    }
+
+    public function columns(int|Closure $columns): static
+    {
+        $this->columns = $columns;
 
         return $this;
     }
@@ -107,6 +116,11 @@ class GridstackDashboardPlugin implements Plugin
     public function getNavigationIcon(): string|Htmlable|null
     {
         return $this->evaluate($this->navigationIcon);
+    }
+
+    public function getColumns(): int
+    {
+        return $this->evaluate($this->columns);
     }
 
     public function boot(Panel $panel): void

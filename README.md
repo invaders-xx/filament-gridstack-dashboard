@@ -82,6 +82,21 @@ public function panel(Panel $panel): Panel
 }
 ```
 
+You can configure the number of columns of the grid. Default is 12.
+
+```php
+use InvadersXX\FilamentGridstackDashboard\GridstackDashboardPlugin;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        ->plugins([
+            GridstackDashboardPlugin::make()
+                ->columns(3),
+        ])
+}
+```
+
 You can configure the settings path (string in dotted format where to store in the settings)
 By default the path is 'dashboard.layout'
 

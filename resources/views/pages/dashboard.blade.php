@@ -1,6 +1,7 @@
 @php
     use Filament\Support\Facades\FilamentAsset;
     use Filament\Widgets\WidgetConfiguration;
+    $columns = $this->getColumns();
 @endphp
 
 <x-filament-panels::page class="fi-dashboard-page">
@@ -10,7 +11,7 @@
                 x-ignore
                 ax-load
                 ax-load-src="{{ FilamentAsset::getAlpineComponentSrc('filament-gridstack-dashboard-script', 'invaders-xx/filament-gridstack-dashboard') }}"
-                x-data="gridStackDashboard()"
+                x-data="gridStackDashboard({ columns:{{ $columns }} })"
                 x-load-css="[@js(FilamentAsset::getStyleHref('filament-gridstack-dashboard-styles', package: 'invaders-xx/filament-gridstack-dashboard'))]"
                 class="text-center"
         >
@@ -86,7 +87,7 @@
         @endif
         <div class="fi-wi flex flex-col gap-6">
             @foreach ($this->buildGridItemsForDesign() as $row => $widgets)
-                <x-filament::grid :default="12" class="gap-6">
+                <x-filament::grid :default="$columns" class="gap-6">
                     @foreach ($widgets as $widgetKey => $widget)
                         @php
                             $widgetClass = $normalizeWidgetClass($widget['id']);

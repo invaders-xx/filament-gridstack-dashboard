@@ -33,9 +33,9 @@ class Dashboard extends BaseDashboard
         return GridstackDashboardPlugin::get()->getNavigationSort() ?? parent::getNavigationSort();
     }
 
-    public function getColumns(): int|array
+    public function getColumns(): int
     {
-        return 12;
+        return GridstackDashboardPlugin::get()->getColumns() ?? 12;
     }
 
     public function saveLayout(): void
