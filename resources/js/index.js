@@ -1,7 +1,8 @@
 import {GridStack} from 'gridstack';
 
 export default function gridStackDashboard({
-                                               columns = 12
+                                               columns = 12,
+                                               rows = 0,
                                            }) {
     return {
         grid: null,
@@ -18,6 +19,7 @@ export default function gridStackDashboard({
             this.grid = GridStack.init({
                 cellHeight: 80,
                 column: columns,
+                row: rows,
                 acceptWidgets: true,
                 removable: '#trash',
                 alwaysShowResizeHandle: true,

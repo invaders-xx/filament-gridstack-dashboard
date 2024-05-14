@@ -38,6 +38,11 @@ class Dashboard extends BaseDashboard
         return GridstackDashboardPlugin::get()->getColumns() ?? 12;
     }
 
+    public function getRows(): int
+    {
+        return GridstackDashboardPlugin::get()->getRows() ?? 0;
+    }
+
     public function saveLayout(): void
     {
         $data = collect($this->gridItems)->sortBy([

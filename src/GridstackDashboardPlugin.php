@@ -25,6 +25,8 @@ class GridstackDashboardPlugin implements Plugin
 
     protected int|Closure|null $columns = 12;
 
+    protected int|Closure|null $rows = 0;
+
     public static function make(): static
     {
         return app(static::class);
@@ -68,6 +70,13 @@ class GridstackDashboardPlugin implements Plugin
     public function columns(int|Closure $columns): static
     {
         $this->columns = $columns;
+
+        return $this;
+    }
+
+    public function rows(int|Closure $rows): static
+    {
+        $this->rows = $rows;
 
         return $this;
     }
@@ -121,6 +130,11 @@ class GridstackDashboardPlugin implements Plugin
     public function getColumns(): int
     {
         return $this->evaluate($this->columns);
+    }
+
+    public function getRows(): int
+    {
+        return $this->evaluate($this->rows);
     }
 
     public function boot(Panel $panel): void

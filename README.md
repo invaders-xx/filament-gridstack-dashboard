@@ -97,6 +97,21 @@ public function panel(Panel $panel): Panel
 }
 ```
 
+You can configure the number of rows of the grid. Default is 0 (no constraint).
+
+```php
+use InvadersXX\FilamentGridstackDashboard\GridstackDashboardPlugin;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        ->plugins([
+            GridstackDashboardPlugin::make()
+                ->rows(3),
+        ])
+}
+```
+
 You can configure the settings path (string in dotted format where to store in the settings)
 By default the path is 'dashboard.layout'
 
@@ -141,6 +156,8 @@ should have the following format:
     'w' => 12, // number of columns on the grid
 ]
 ```
+
+FYI, a 12 columns grid, x goes from 0 to 11
 
 ```php
 use InvadersXX\FilamentGridstackDashboard\GridstackDashboardPlugin;
