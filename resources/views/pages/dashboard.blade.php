@@ -32,7 +32,16 @@
             </div>
             <div class="mx-auto grid w-full grid-cols-12 space-x-3">
                 <div class="col-span-3 md:mb-10">
-                    <x-filament::section>
+                    <div class="mb-4 mt-4 bg-gray-500 dark:bg-white"></div>
+                    <div
+                            id="trash"
+                            class="border-danger-500 bg-danger-500 flex items-center border p-6 text-center"
+                    >
+                        <x-heroicon-o-trash class="mr-2 h-8 w-8 text-white"/>
+                        <span class="text-white">{{ __('filament-gridstack-dashboard::component.trash_zone') }}</span>
+                    </div>
+                    <div class="mb-4 mt-4 bg-gray-500 dark:bg-white"></div>
+                    <x-filament::section collapsible>
                         <x-slot name="heading">{{ __('filament-gridstack-dashboard::component.widgets') }}</x-slot>
                         <div class="flex flex-col items-stretch space-y-3">
                             @foreach ($this->getFilteredWidgets() as $class => $label)
@@ -45,14 +54,6 @@
                             @endforeach
                         </div>
                         <hr class="mb-4 mt-4 bg-gray-500 dark:bg-gray-700"/>
-                        <div
-                                id="trash"
-                                class="border-danger-500 bg-danger-500 flex items-center border p-6 text-center"
-                        >
-                            <x-heroicon-o-trash class="mr-2 h-8 w-8 text-white"/>
-                            <span class="text-white">{{ __('filament-gridstack-dashboard::component.trash_zone') }}</span>
-                        </div>
-                        <hr class="mb-4 mt-4 bg-gray-500 dark:bg-white"/>
                         <div class="space-x-3">
                             <x-filament::button wire:click="saveLayout">
                                 {{ __('filament-gridstack-dashboard::component.actions.save') }}
