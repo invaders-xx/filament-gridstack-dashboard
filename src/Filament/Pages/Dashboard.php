@@ -7,6 +7,7 @@ use Filament\Notifications\Notification;
 use Filament\Pages\Dashboard as BaseDashboard;
 use Filament\Widgets\TableWidget;
 use Filament\Widgets\Widget;
+use Illuminate\Contracts\Support\Htmlable;
 use InvadersXX\FilamentGridstackDashboard\GridstackDashboardPlugin;
 
 class Dashboard extends BaseDashboard
@@ -17,7 +18,22 @@ class Dashboard extends BaseDashboard
 
     protected static string $view = 'filament-gridstack-dashboard::pages.dashboard';
 
-    public function getColumns(): int | array
+    public static function getNavigationGroup(): ?string
+    {
+        return GridstackDashboardPlugin::get()->getNavigationGroup() ?? parent::getNavigationGroup();
+    }
+
+    public static function getNavigationIcon(): string|Htmlable|null
+    {
+        return GridstackDashboardPlugin::get()->getNavigationIcon() ?? parent::getNavigationIcon();
+    }
+
+    public static function getNavigationSort(): ?int
+    {
+        return GridstackDashboardPlugin::get()->getNavigationSort() ?? parent::getNavigationSort();
+    }
+
+    public function getColumns(): int|array
     {
         return 12;
     }
@@ -125,6 +141,6 @@ class Dashboard extends BaseDashboard
 
     protected function getVisibleWidgetsForGrid(): array
     {
-        return auth()->user()->settings()->get(static::getSettingsPath(), []);
+        return auth()->user()->settings()->get(static::getSettingsPath(), GridstackDashboardPlugin::get()->getDefaultGrid());
     }
 }

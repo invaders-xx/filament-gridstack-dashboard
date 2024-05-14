@@ -2,16 +2,26 @@
 
 namespace InvadersXX\FilamentGridstackDashboard;
 
+use Closure;
 use Filament\Contracts\Plugin;
 use Filament\Panel;
 use Filament\Support\Concerns\EvaluatesClosures;
+use Illuminate\Contracts\Support\Htmlable;
 use InvadersXX\FilamentGridstackDashboard\Filament\Pages\Dashboard;
 
 class GridstackDashboardPlugin implements Plugin
 {
     use EvaluatesClosures;
 
+    protected string|Closure|null $navigationGroup = null;
+
+    protected string|Closure|null $navigationIcon = null;
+
     protected string $settingsPath = 'dashboard.layout';
+
+    protected array|Closure $defaultGrid = [];
+
+    protected int|Closure|null $navigationSort = -200;
 
     public static function make(): static
     {
@@ -39,9 +49,37 @@ class GridstackDashboardPlugin implements Plugin
             ]);
     }
 
-    public function settingsPath(string $path): static
+    public function settingsPath(string|Closure $path): static
     {
         $this->settingsPath = $path;
+
+        return $this;
+    }
+
+    public function defaultGrid(array|Closure $grid): static
+    {
+        $this->defaultGrid = $grid;
+
+        return $this;
+    }
+
+    public function navigationSort(int|Closure $navigationSort): static
+    {
+        $this->navigationSort = $navigationSort;
+
+        return $this;
+    }
+
+    public function navigationGroup(string|Closure $navigationGroup): static
+    {
+        $this->navigationGroup = $navigationGroup;
+
+        return $this;
+    }
+
+    public function navigationIcon(string|Closure $navigationIcon): static
+    {
+        $this->navigationIcon = $navigationIcon;
 
         return $this;
     }
@@ -49,6 +87,26 @@ class GridstackDashboardPlugin implements Plugin
     public function getSettingsPath(): string
     {
         return $this->evaluate($this->settingsPath);
+    }
+
+    public function getDefaultGrid(): array
+    {
+        return $this->evaluate($this->defaultGrid);
+    }
+
+    public function getNavigationSort(): int
+    {
+        return $this->evaluate($this->navigationSort);
+    }
+
+    public function getNavigationGroup(): ?string
+    {
+        return $this->evaluate($this->navigationGroup);
+    }
+
+    public function getNavigationIcon(): string|Htmlable|null
+    {
+        return $this->evaluate($this->navigationIcon);
     }
 
     public function boot(Panel $panel): void

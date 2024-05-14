@@ -1,6 +1,7 @@
 ![invaders-xx-gridstack-dashboard](https://github.com/invaders-xx/filament-gridstack-dashboard/assets/604907/0dffac39-3daa-4788-99ec-abe85d126b4b)
 
 # Create and manage filament Dashboards using gridstack js
+
 <img width="1715" alt="image" src="https://github.com/invaders-xx/filament-gridstack-dashboard/assets/604907/cadb4346-d3fe-4749-ba6e-0e4eed2c9576">
 
 <img width="1715" alt="image" src="https://github.com/invaders-xx/filament-gridstack-dashboard/assets/604907/f41809b0-3ef0-4dd9-a894-ff199050ca2d">
@@ -22,10 +23,10 @@ You can install the package via composer:
 ```bash
 composer require invaders-xx/filament-gridstack-dashboard
 ```
+
 ```bash
 php artisan filament:assets
 ```
-
 
 > **Note: Add plugin Blade files to your custom theme `tailwind.config.js` for dark mode.**
 >
@@ -81,7 +82,7 @@ public function panel(Panel $panel): Panel
 }
 ```
 
-you can configure the settings path (string in dotted format where to store in the settings)
+You can configure the settings path (string in dotted format where to store in the settings)
 By default the path is 'dashboard.layout'
 
 ```php
@@ -91,7 +92,58 @@ public function panel(Panel $panel): Panel
 {
     return $panel
         ->plugins([
-            GridstackDashboardPlugin::make()->settingsPath('dashboard.settings'),
+            GridstackDashboardPlugin::make()
+                ->settingsPath('dashboard.settings'),
+        ])
+}
+```
+
+You can configure the navigationIcon, the navigationGroup and the navigationSort
+By default the path is 'dashboard.layout'
+
+```php
+use InvadersXX\FilamentGridstackDashboard\GridstackDashboardPlugin;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        ->plugins([
+            GridstackDashboardPlugin::make()
+                ->navigationIcon('heroicon-o-chart-bar')
+                ->navigationGroup('Admin')
+                ->navigationSort(1),
+        ])
+}
+```
+
+You can configure a default grid using defaultGrid() function. This function has an array as parameter. This array
+should have the following format:
+
+```php
+[
+    'widget' => AccountWidget::class, // Widget class
+    'x' => 0, // starting column on the grid
+    'y' => 0, // row on the grid
+    'w' => 12, // number of columns on the grid
+]
+```
+
+```php
+use InvadersXX\FilamentGridstackDashboard\GridstackDashboardPlugin;
+use Filament\Widgets\AccountWidget;
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        ->plugins([
+            GridstackDashboardPlugin::make()
+                ->defaultGrid([
+                    [
+                        'widget' => AccountWidget::class,
+                        'x' => 0,
+                        'y' => 0,
+                        'w' => 12,
+                    ],
+                ]),
         ])
 }
 ```
