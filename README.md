@@ -1,4 +1,5 @@
-![invaders-xx-gridstack-dashboard](https://github.com/invaders-xx/filament-gridstack-dashboard/assets/604907/0dffac39-3daa-4788-99ec-abe85d126b4b)
+
+![invaders-xx-gridstack-dashboard](https://github.com/invaders-xx/filament-gridstack-dashboard/assets/604907/7b94f470-9e83-4cc5-95af-e5794db76feb)
 
 # Create and manage filament Dashboards using gridstack js
 
