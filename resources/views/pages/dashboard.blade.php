@@ -4,22 +4,26 @@
     $columns = $this->getColumns();
     $rows = $this->getRows();
     $float = $this->getFloat();
+    $disableDrag = $this->getDisableDrag();
+    $disableResize = $this->getDisableResize();
+    $resizable = $this->getResizable();
 @endphp
 
 <x-filament-panels::page class="fi-dashboard-page">
     @if ($designMode)
-        <div
-
-                x-ignore
-                ax-load
-                ax-load-src="{{ FilamentAsset::getAlpineComponentSrc('filament-gridstack-dashboard-script', 'invaders-xx/filament-gridstack-dashboard') }}"
-                x-data="gridStackDashboard({
+        <div x-ignore
+             ax-load
+             ax-load-src="{{ FilamentAsset::getAlpineComponentSrc('filament-gridstack-dashboard-script', 'invaders-xx/filament-gridstack-dashboard') }}"
+             x-data="gridStackDashboard({
                     columns:{{ $columns }},
                     rows: {{ $rows }},
-                    float: {{ $float }}
+                    float: {{ $float }},
+                    disableResize: {{ $disableResize ? 1:0 }},
+                    disableDrag: {{ $disableDrag ? 1:0 }},
+                    resizable: '{{ $resizable }}'
                     })"
-                x-load-css="[@js(FilamentAsset::getStyleHref('filament-gridstack-dashboard-styles', package: 'invaders-xx/filament-gridstack-dashboard'))]"
-                class="text-center"
+             x-load-css="[@js(FilamentAsset::getStyleHref('filament-gridstack-dashboard-styles', package: 'invaders-xx/filament-gridstack-dashboard'))]"
+             class="text-center"
         >
             <div class="flex w-full flex-row items-start space-x-3 p-3">
                 <x-filament::button wire:click="saveLayout">

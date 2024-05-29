@@ -23,11 +23,17 @@ class GridstackDashboardPlugin implements Plugin
 
     protected int|Closure|null $navigationSort = -200;
 
-    protected int|Closure|null $columns = 12;
+    protected int|Closure $columns = 12;
 
-    protected int|Closure|null $rows = 0;
+    protected int|Closure $rows = 0;
 
-    protected bool|Closure|null $float = true;
+    protected bool|Closure $float = true;
+
+    protected bool|Closure $disableDrag = false;
+
+    protected bool|Closure $disableResize = false;
+
+    protected string|Closure $resizable = 'se';
 
     public static function make(): static
     {
@@ -86,6 +92,27 @@ class GridstackDashboardPlugin implements Plugin
     public function float(bool|Closure $float): static
     {
         $this->float = $float;
+
+        return $this;
+    }
+
+    public function disableDrag(bool|Closure $disableDrag = true): static
+    {
+        $this->disableDrag = $disableDrag;
+
+        return $this;
+    }
+
+    public function disableResize(bool|Closure $disableResize = true): static
+    {
+        $this->disableResize = $disableResize;
+
+        return $this;
+    }
+
+    public function resizable(string|Closure $resizable): static
+    {
+        $this->resizable = $resizable;
 
         return $this;
     }
@@ -149,6 +176,21 @@ class GridstackDashboardPlugin implements Plugin
     public function getFloat(): bool
     {
         return $this->evaluate($this->float);
+    }
+
+    public function getResizable(): ?string
+    {
+        return $this->evaluate($this->resizable);
+    }
+
+    public function getDisableDrag(): ?bool
+    {
+        return $this->evaluate($this->disableDrag);
+    }
+
+    public function getDisableResize(): ?bool
+    {
+        return $this->evaluate($this->disableResize);
     }
 
     public function boot(Panel $panel): void

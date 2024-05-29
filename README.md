@@ -143,6 +143,52 @@ public function panel(Panel $panel): Panel
 }
 ```
 
+You can enable/disable dragging widgets (default: false).
+
+```php
+use InvadersXX\FilamentGridstackDashboard\GridstackDashboardPlugin;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        ->plugins([
+            GridstackDashboardPlugin::make()
+                ->disableDrag(true),
+        ])
+}
+```
+
+You can enable/disable resizing widgets (default: false).
+
+```php
+use InvadersXX\FilamentGridstackDashboard\GridstackDashboardPlugin;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        ->plugins([
+            GridstackDashboardPlugin::make()
+                ->disableResize(true),
+        ])
+}
+```
+
+You can specify resizing handles position of widgets. It can be any combination of n,ne,e,se,s,sw,w,nw or all (
+default: 'se').
+
+```php
+use InvadersXX\FilamentGridstackDashboard\GridstackDashboardPlugin;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        ->plugins([
+            GridstackDashboardPlugin::make()
+                ->resizable('all'),
+        ])
+}
+```
+
 You can configure the navigationIcon, the navigationGroup and the navigationSort
 
 ```php
