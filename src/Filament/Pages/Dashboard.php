@@ -50,8 +50,6 @@ class Dashboard extends BaseDashboard
 
     public function getDisableDrag(): bool
     {
-        ray(GridstackDashboardPlugin::get()->getDisableDrag());
-
         return GridstackDashboardPlugin::get()->getDisableDrag() ?? false;
     }
 
