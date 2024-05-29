@@ -3,6 +3,7 @@ import {GridStack} from 'gridstack';
 export default function gridStackDashboard({
                                                columns = 12,
                                                rows = 0,
+                                               float = true
                                            }) {
     return {
         grid: null,
@@ -20,6 +21,7 @@ export default function gridStackDashboard({
                 cellHeight: 80,
                 column: columns,
                 row: rows,
+                float: float,
                 acceptWidgets: true,
                 removable: '#trash',
                 alwaysShowResizeHandle: true,

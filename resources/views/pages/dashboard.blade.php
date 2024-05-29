@@ -3,6 +3,7 @@
     use Filament\Widgets\WidgetConfiguration;
     $columns = $this->getColumns();
     $rows = $this->getRows();
+    $float = $this->getFloat();
 @endphp
 
 <x-filament-panels::page class="fi-dashboard-page">
@@ -14,7 +15,8 @@
                 ax-load-src="{{ FilamentAsset::getAlpineComponentSrc('filament-gridstack-dashboard-script', 'invaders-xx/filament-gridstack-dashboard') }}"
                 x-data="gridStackDashboard({
                     columns:{{ $columns }},
-                    rows: {{ $rows }}
+                    rows: {{ $rows }},
+                    float: {{ $float }}
                     })"
                 x-load-css="[@js(FilamentAsset::getStyleHref('filament-gridstack-dashboard-styles', package: 'invaders-xx/filament-gridstack-dashboard'))]"
                 class="text-center"
@@ -94,19 +96,26 @@
             @foreach ($this->buildGridItemsForDesign() as $row => $widgets)
                 <x-filament::grid :default="$columns" class="gap-6">
                     @foreach ($widgets as $widgetKey => $widget)
-                        @php
-                            $widgetClass = $normalizeWidgetClass($widget['id']);
-                        @endphp
-                        <x-filament::grid.column
-                                class="fi-wi-widget"
-                                :default="$widget['w']">
-                            @livewire($widgetClass,
-                            [...$widget['id'] instanceof \Filament\Widgets\WidgetConfiguration?
-                            [...$widget['id']->widget::getDefaultProperties(), ...$widget['id']->getProperties()]:
-                            $widget['id']::getDefaultProperties(),...$data,],
-                            key("{$widgetClass}-{$widgetKey}")
-                            )
-                        </x-filament::grid.column>
+                        @if($widget['id']===null)
+                            <x-filament::grid.column
+                                    class="fi-wi-widget"
+                                    :default="$widget['w']">
+                            </x-filament::grid.column>
+                        @else
+                            @php
+                                $widgetClass = $normalizeWidgetClass($widget['id']);
+                            @endphp
+                            <x-filament::grid.column
+                                    class="fi-wi-widget"
+                                    :default="$widget['w']">
+                                @livewire($widgetClass,
+                                [...$widget['id'] instanceof \Filament\Widgets\WidgetConfiguration?
+                                [...$widget['id']->widget::getDefaultProperties(), ...$widget['id']->getProperties()]:
+                                $widget['id']::getDefaultProperties(),...$data,],
+                                key("{$widgetClass}-{$widgetKey}")
+                                )
+                            </x-filament::grid.column>
+                        @endif
                     @endforeach
                 </x-filament::grid>
             @endforeach

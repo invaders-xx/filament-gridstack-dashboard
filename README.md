@@ -1,4 +1,3 @@
-
 ![invaders-xx-gridstack-dashboard](https://github.com/invaders-xx/filament-gridstack-dashboard/assets/604907/7b94f470-9e83-4cc5-95af-e5794db76feb)
 
 # Create and manage filament Dashboards using gridstack js
@@ -125,6 +124,21 @@ public function panel(Panel $panel): Panel
         ->plugins([
             GridstackDashboardPlugin::make()
                 ->settingsPath('dashboard.settings'),
+        ])
+}
+```
+
+You can enable/disable floating widgets (default: true).
+
+```php
+use InvadersXX\FilamentGridstackDashboard\GridstackDashboardPlugin;
+
+public function panel(Panel $panel): Panel
+{
+    return $panel
+        ->plugins([
+            GridstackDashboardPlugin::make()
+                ->float(false),
         ])
 }
 ```

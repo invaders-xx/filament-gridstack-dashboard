@@ -43,6 +43,11 @@ class Dashboard extends BaseDashboard
         return GridstackDashboardPlugin::get()->getRows() ?? 0;
     }
 
+    public function getFloat(): bool
+    {
+        return GridstackDashboardPlugin::get()->getFloat() ?? false;
+    }
+
     public function saveLayout(): void
     {
         $data = collect($this->gridItems)->sortBy([
@@ -90,33 +95,53 @@ class Dashboard extends BaseDashboard
 
     public function buildGridItemsForDesign(): array
     {
-        $return = [];
+        $data = [];
         $this->gridItems = [];
         foreach ($this->getVisibleWidgetsForGrid() as $widget) {
-            $widgetInstance = app()->make($widget['widget']);
+            if (! isset($data[$widget['y']])) {
+                $data[$widget['y']] = [];
+            }
+            $label = null;
+            if ($widget['widget']) {
+                $widgetInstance = app()->make($widget['widget']);
 
-            $label = match (true) {
-                $widgetInstance instanceof TableWidget => (string) invade($widgetInstance)->makeTable()->getHeading(),
-                ! ($widgetInstance instanceof TableWidget) && $widgetInstance instanceof Widget && method_exists(
-                    $widgetInstance,
-                    'getHeading'
-                ) => (string) invade($widgetInstance)->getHeading(),
-                default => str($widget['widget'])
-                    ->afterLast('\\')
-                    ->headline()
-                    ->toString()
-            };
+                $label = match (true) {
+                    $widgetInstance instanceof TableWidget => (string) invade($widgetInstance)->makeTable()->getHeading(),
+                    ! ($widgetInstance instanceof TableWidget) && $widgetInstance instanceof Widget && method_exists(
+                        $widgetInstance,
+                        'getHeading'
+                    ) => (string) invade($widgetInstance)->getHeading(),
+                    default => str($widget['widget'])
+                        ->afterLast('\\')
+                        ->headline()
+                        ->toString()
+                };
+            }
             $item['id'] = $widget['widget'];
             $item['w'] = $widget['w'];
             $item['x'] = $widget['x'];
             $item['y'] = $widget['y'];
             $item['content'] = $label;
             $item['resizeHandles'] = 'e,w';
-            if (! isset($return[$item['y']])) {
-                $return[$item['y']] = [];
-            }
-            $return[$item['y']][] = $item;
+            $data[$item['y']][] = $item;
             $this->gridItems[] = $item;
+        }
+        $return = [];
+        foreach ($data as $row => $widgets) {
+            $pos = 0;
+            foreach ($widgets as $widget) {
+                if ($pos !== $widget['x']) {
+                    $size = abs($widget['x'] - $pos);
+                    $return[$row][] = [
+                        'id' => null,
+                        'y' => $row,
+                        'x' => $pos,
+                        'w' => $size,
+                    ];
+                }
+                $pos = $widget['x'] + $widget['w'];
+                $return[$row][] = $widget;
+            }
         }
 
         return $return;
