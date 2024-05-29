@@ -48,6 +48,18 @@ class Dashboard extends BaseDashboard
         return GridstackDashboardPlugin::get()->getFloat() ?? false;
     }
 
+    public function getDisableDrag(): bool
+    {
+        ray(GridstackDashboardPlugin::get()->getDisableDrag());
+
+        return GridstackDashboardPlugin::get()->getDisableDrag() ?? false;
+    }
+
+    public function getDisableResize(): bool
+    {
+        return GridstackDashboardPlugin::get()->getDisableResize() ?? false;
+    }
+
     public function saveLayout(): void
     {
         $data = collect($this->gridItems)->sortBy([
@@ -97,6 +109,7 @@ class Dashboard extends BaseDashboard
     {
         $data = [];
         $this->gridItems = [];
+        $resizable = GridstackDashboardPlugin::get()->getResizable() ?? 'e,w';
         foreach ($this->getVisibleWidgetsForGrid() as $widget) {
             if (! isset($data[$widget['y']])) {
                 $data[$widget['y']] = [];
@@ -122,7 +135,7 @@ class Dashboard extends BaseDashboard
             $item['x'] = $widget['x'];
             $item['y'] = $widget['y'];
             $item['content'] = $label;
-            $item['resizeHandles'] = 'e,w';
+            // $item['resizeHandles'] = $resizable;
             $data[$item['y']][] = $item;
             $this->gridItems[] = $item;
         }
@@ -145,6 +158,11 @@ class Dashboard extends BaseDashboard
         }
 
         return $return;
+    }
+
+    public function getResizable(): string
+    {
+        return GridstackDashboardPlugin::get()->getResizable() ?? 'se';
     }
 
     protected static function getSettingsPath(): string
