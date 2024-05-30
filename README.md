@@ -70,6 +70,8 @@ php artisan vendor:publish --tag="filament-gridstack-dashboard-views"
 
 ## Usage
 
+All functions used to configure the plugin can have a closure as argument.
+
 ```php
 use InvadersXX\FilamentGridstackDashboard\GridstackDashboardPlugin;
 
@@ -189,7 +191,8 @@ public function panel(Panel $panel): Panel
 }
 ```
 
-You can configure the navigationIcon, the navigationGroup and the navigationSort
+You can configure the navigationIcon, the navigationGroup, the navigationLabel, the navigationSort, canAccess and
+shouldRegisterNavigation
 
 ```php
 use InvadersXX\FilamentGridstackDashboard\GridstackDashboardPlugin;
@@ -201,6 +204,9 @@ public function panel(Panel $panel): Panel
             GridstackDashboardPlugin::make()
                 ->navigationIcon('heroicon-o-chart-bar')
                 ->navigationGroup('Admin')
+                ->shouldRegisterNavigation(false)
+                ->canAccess(fn() => auth()->id()===1)
+                ->navigationLabel('Dashboard')
                 ->navigationSort(1),
         ])
 }
