@@ -33,7 +33,13 @@ class GridstackDashboardPlugin implements Plugin
 
     protected bool|Closure $disableResize = false;
 
+    protected bool|Closure $canAccess = true;
+
+    protected bool|Closure $shouldRegisterNavigation = true;
+
     protected string|Closure $resizable = 'se';
+
+    protected string|Closure|null $navigationLabel = null;
 
     public static function make(): static
     {
@@ -117,6 +123,27 @@ class GridstackDashboardPlugin implements Plugin
         return $this;
     }
 
+    public function canAccess(bool|Closure $canAccess = true): static
+    {
+        $this->canAccess = $canAccess;
+
+        return $this;
+    }
+
+    public function shouldRegisterNavigation(bool|Closure $shouldRegisterNavigation = true): static
+    {
+        $this->shouldRegisterNavigation = $shouldRegisterNavigation;
+
+        return $this;
+    }
+
+    public function navigationLabel(string|Closure $navigationLabel): static
+    {
+        $this->navigationLabel = $navigationLabel;
+
+        return $this;
+    }
+
     public function navigationSort(int|Closure $navigationSort): static
     {
         $this->navigationSort = $navigationSort;
@@ -146,6 +173,11 @@ class GridstackDashboardPlugin implements Plugin
     public function getDefaultGrid(): array
     {
         return $this->evaluate($this->defaultGrid);
+    }
+
+    public function getNavigationLabel(): ?string
+    {
+        return $this->evaluate($this->navigationLabel);
     }
 
     public function getNavigationSort(): int
@@ -186,6 +218,16 @@ class GridstackDashboardPlugin implements Plugin
     public function getDisableDrag(): ?bool
     {
         return $this->evaluate($this->disableDrag);
+    }
+
+    public function getCanAccess(): ?bool
+    {
+        return $this->evaluate($this->canAccess);
+    }
+
+    public function getShouldRegisterNavigation(): ?bool
+    {
+        return $this->evaluate($this->shouldRegisterNavigation);
     }
 
     public function getDisableResize(): ?bool

@@ -18,6 +18,21 @@ class Dashboard extends BaseDashboard
 
     protected static string $view = 'filament-gridstack-dashboard::pages.dashboard';
 
+    public static function canAccess(): bool
+    {
+        return GridstackDashboardPlugin::get()->getCanAccess() ?? parent::canAccess();
+    }
+
+    public static function getNavigationLabel(): string
+    {
+        return GridstackDashboardPlugin::get()->getNavigationLabel() ?? parent::getNavigationLabel();
+    }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return GridstackDashboardPlugin::get()->getShouldRegisterNavigation() ?? parent::$shouldRegisterNavigation;
+    }
+
     public static function getNavigationGroup(): ?string
     {
         return GridstackDashboardPlugin::get()->getNavigationGroup() ?? parent::getNavigationGroup();
